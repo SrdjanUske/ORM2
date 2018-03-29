@@ -31,6 +31,9 @@ int main()
 	pcap_t* device_handle;					// Descriptor of capture device
 	char error_buffer[PCAP_ERRBUF_SIZE];	// Error buffer
 	unsigned int netmask;
+	
+	char filter_exp[] = "dst host 10.81.31.69 and tcp";
+	struct bpf_program fcode;
 
     /* Retrieve the device list on the local machine */
     if (pcap_findalldevs(&devices, error_buffer) == -1)
@@ -77,6 +80,19 @@ int main()
         netmask = ((struct sockaddr_in *)(device->addresses->netmask))->sin_addr.s_addr;
 #endif
 
+	// Compile the filter
+	if (pcap_compile(device_handle, &fcode, filter_exp, 1, netmask) < 0)
+	{
+	printf("\n Unable to compile the packet filter. Check the syntax.\n");
+	return -1;
+	}
+	// Set the filter
+	if (pcap_setfilter(device_handle, &fcode) < 0)
+	{
+	printf("\n Error setting the filter.\n");
+	return -1;
+	} 
+
     printf("\nListening on %s...\n", device->description);
     
     // At this point, we don't need any more the device list. Free it 
@@ -87,6 +103,8 @@ int main()
     
     return 0;
 }
+
+
 
 // This function provide possibility to chose device from the list of available devices
 pcap_if_t* select_device(pcap_if_t* devices)
@@ -142,4 +160,12 @@ void packet_handler(unsigned char* param, const struct pcap_pkthdr* packet_heade
 	
 	printf("\n-------------------------------------------");
 	printf("\nPacket (%d): %s, %d byte\n", ++packet_counter, time_string, packet_header->len);
+	
+	int i;
+	for (i = 0; i < packet_header->len; i++) {
+		printf("%.2x ", packet_data[i]);
+			if ((i+1) % 16 == 0) {
+				printf("\n");
+			}
+	}
 }

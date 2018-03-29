@@ -148,6 +148,12 @@ int main()
 		// Retrieve the position of the udp header
 		ip_len = ih->header_length * 4; // header length is calculated using words (1 word = 4 bytes)
 		uh = (udp_header*) ((unsigned char*)ih + ip_len);
+		print_udp_header(uh);
+
+		app_data = (unsigned char*)uh + sizeof(udp_header);
+		app_length = ntohs(uh->datagram_length) - sizeof(udp_header);
+		print_application_data(app_data, app_length);
+
 
 		// For demonstration purpose
 		printf("\n\nPress enter to receive new packet\n");
@@ -283,4 +289,29 @@ void print_ip_header(ip_header * ih)
 	printf("\n=============================================================");
 
 	return;
+}
+
+void print_udp_header(udp_header * uh) {
+
+	printf("\n=============================================================");
+	printf("\n\tTRANSPORT LAYER  -  UDP Protocol");
+	
+	print_raw_data((unsigned char*)uh, ntohs(uh->datagram_length));
+
+	printf("\n\tSource port:\t\t%u", ntohs(uh->src_port));	
+	printf("\n\tDestination port:\t%u", ntohs(uh->dest_port));
+	printf("\n\tDatagram length:\t%u", ntohs(uh->datagram_length));
+	printf("\n\tChecksum:\t\t%u", ntohs(uh->checksum));
+
+	printf("\n=============================================================");
+}
+
+void print_application_data(unsigned char* data, long data_length) {
+
+	printf("\n=============================================================");
+	printf("\n\tAPPLICATION LAYER");
+
+	print_raw_data(data, data_length);
+	
+	printf("\n=============================================================");
 }
