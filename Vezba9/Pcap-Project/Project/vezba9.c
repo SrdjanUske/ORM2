@@ -19,10 +19,11 @@
 #include <pcap.h>
 #include "protocol_headers.h"
 
-void packet_handler(unsigned char* user, const struct pcap_pkthdr* packet_header, const unsigned char* packet_data);
+void packet_handler(unsigned char* user, const struct pcap_pkthdr* packet_header, unsigned char* packet_data);
 
 pcap_t* device_handle_in, *device_handle_out;
 pcap_send_queue* queue_udp;
+pcap_send_queue* queue_tcp;
 
 int main()
 {
@@ -104,6 +105,7 @@ int main()
 	/**************************************************************/
 	// Allocate a send queue 
 	queue_udp = pcap_sendqueue_alloc(256*1024);	// 256 kB
+	queue_tcp = pcap_sendqueue_alloc(512*1024);	// 512 kB
 
 	/**************************************************************/
 	// Fill the queue with the packets from the network
@@ -120,9 +122,15 @@ int main()
 		printf("An error occurred sending the packets: %s. Only %d bytes were sent\n", pcap_geterr(device_handle_out), sentBytes);
 	}
 
+	if ((sentBytes = pcap_sendqueue_transmit(device_handle_out, queue_tcp, 1)) < queue_tcp->len)
+	{
+		printf("An error occurred sending the packets: %s. Only %d bytes were sent\n", pcap_geterr(device_handle_out), sentBytes);
+	}
+
 	/**************************************************************/
 	// Free queues 
  	pcap_sendqueue_destroy(queue_udp);
+	pcap_sendqueue_destroy(queue_tcp);
 	/**************************************************************/
 
 	/**************************************************************/
@@ -133,7 +141,7 @@ int main()
 }
 
 // Callback function invoked by libpcap/WinPcap for every incoming packet
-void packet_handler(unsigned char* user, const struct pcap_pkthdr* packet_header, const unsigned char* packet_data)
+void packet_handler(unsigned char* user, const struct pcap_pkthdr* packet_header, unsigned char* packet_data)
 {
 	// Retrieve position of ethernet_header
 	ethernet_header* eh;
@@ -154,6 +162,29 @@ void packet_handler(unsigned char* user, const struct pcap_pkthdr* packet_header
 				printf("Warning: udp packet buffer too small, not all the packets will be sent.\n");
 			}
 			/**************************************************************/
+		}
+		else if(ih->next_protocol == 6) // TCP
+		{
+			/**************************************************************/
+			// Add packet in the queue
+			if (pcap_sendqueue_queue(/*(pcap_send_queue*)*/queue_tcp, packet_header, packet_data) == -1)
+			{
+				printf("Warning: tcp packet buffer too small, not all the packets will be sent.\n");
+			}
+			/**************************************************************/
+		}
+	}
+	else if (ntohs(eh->type) == 0x806) { // ARP
+		
+		int i;
+		for (i = 6; i < 12; i++) {
+			packet_data[i] = 0x2;
+		}
+		
+		//Send down the packet
+		if (pcap_sendpacket(device_handle_out, packet_data, packet_header->len) != 0)
+		{
+			printf("\n Error sending the packet: %s\n", pcap_geterr(device_handle_out));
 		}
 	}
 }
