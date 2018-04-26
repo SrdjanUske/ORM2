@@ -24,7 +24,14 @@
 
 // Function declarations
 void statistics_handler(unsigned char* param, const struct pcap_pkthdr *packet_header, const unsigned char *packet_data);
+void packet_handler(unsigned char* param, const struct pcap_pkthdr* packet_header, unsigned char* packet_data);
 
+long long bits_sec;
+long long packets_sec;
+long bajts;
+struct timeval t_first_packet;
+struct timeval t_last_packet;
+int counter;
 
 int main()
 {
@@ -39,6 +46,21 @@ int main()
 	char timestr[16];
     struct timeval start_time;
     time_t t;
+	int k;
+
+	bajts = 0;
+	counter = 0;
+	bits_sec = 0;
+	packets_sec = 0;
+
+	printf("Odaberite zeljeni saobracaj:\n");
+	printf("1. IP\n");
+	printf("2. UDP\n");
+	printf("3. TCP\n");
+	printf("4. ARP\n");
+	printf("-> ");
+	scanf("%d", &k);
+
 
     // Retrieve the device list on the local machine
     if (pcap_findalldevs(&devices, error_buffer) == -1)
@@ -88,7 +110,7 @@ int main()
     if ((device_handle = pcap_open_live( device->name,		// Name of the device
                               65536,						// Portion of the packet to capture (65536 guarantees that the whole packet will be captured on all the link layers)
                               1,							// Promiscuous  mode
-                              5000,							// Read timeout
+                              2000,							// Read timeout
 							  error_buffer					// Buffer where error message is stored
 							) ) == NULL)
     {
@@ -104,11 +126,52 @@ int main()
 		return -1;
 	}
 
-	// Compile the filter
+	switch(k) {
+		
+		case 1:
+			// Compile the filter
+	if (pcap_compile(device_handle, &fcode, "ip", 1, 0xffffff) < 0)
+	{
+		 printf("\n Unable to compile the packet filter. Check the syntax.\n");
+		 return -1;
+	}
+
+	printf("\nIP traffic summary:\n");
+			break;
+		
+		case 2:
+			// Compile the filter
 	if (pcap_compile(device_handle, &fcode, "udp", 1, 0xffffff) < 0)
 	{
 		 printf("\n Unable to compile the packet filter. Check the syntax.\n");
 		 return -1;
+	}
+	printf("\nUDP traffic summary:\n");
+			break;
+		
+		case 3:
+			// Compile the filter
+	if (pcap_compile(device_handle, &fcode, "tcp", 1, 0xffffff) < 0)
+	{
+		 printf("\n Unable to compile the packet filter. Check the syntax.\n");
+		 return -1;
+	}
+	printf("\nTCP traffic summary:\n");
+			break;
+		
+		case 4:
+			// Compile the filter
+	if (pcap_compile(device_handle, &fcode, "arp", 1, 0xffffff) < 0)
+	{
+		 printf("\n Unable to compile the packet filter. Check the syntax.\n");
+		 return -1;
+	}
+	printf("\nARP traffic summary:\n");
+			break;
+		
+		default:
+			break;
+		
 	}
 
 	// Set the filter
@@ -127,7 +190,7 @@ int main()
 		return 0;
 	}
 
-	printf("\nUDP traffic summary:\n");
+	
 	
 	// Get current time in which statistical analysis starts
 	t = time(0);
@@ -141,7 +204,23 @@ int main()
 	start_time.tv_usec=0;
 
 	// Start statistical analysis
-	pcap_loop(device_handle, 0, statistics_handler, (unsigned char*)&start_time);
+	pcap_loop(device_handle, 15, statistics_handler, (unsigned char*)&start_time);
+	
+	// 3)
+	printf("%I64u packets/sec, ", packets_sec / 15);
+	printf("%I64u bits/sec, ", bits_sec / 15);
+
+	// Set device (NIC) in capture mode
+	if (pcap_setmode(device_handle, MODE_CAPT) < 0)
+	{
+		printf("\nError setting the mode.\n");
+		 pcap_close(device_handle);
+		// Free the device list 
+		return 0;
+	}
+
+	// Start capture
+	pcap_loop(device_handle, 20, packet_handler, NULL);
 
 	// Close the device
 	pcap_close(device_handle);
@@ -177,19 +256,47 @@ void statistics_handler(unsigned char* param, const struct pcap_pkthdr* packet_h
 							    Delay is expressed in microseconds --           
     */
 
+	bits_sec += bits_per_second;
+	packets_sec += packets_per_second;
+
     // Convert the timestamp to readable format 
     local_tv_sec = packet_header->ts.tv_sec;
     localtime_s(&ltime, &local_tv_sec);
     strftime( timestr, sizeof timestr, "%H:%M:%S", &ltime);
 
     // Print timestamp
-    printf("%s  ", timestr);
+    printf("\n%s  \n", timestr);
+
+	// Print packets and bajts
+	printf("%I64u packets, ", *(long long*)(packet_data));
+	printf("%I64u bajts, ", *(long long*)(packet_data + 8));
 
     // Print results (bps and pps)
-    printf("%I64u bits/s, ", bits_per_second);
-    printf("%I64u packets/s\n", packets_per_second);
+    //printf("%I64u bits/s, ", bits_per_second);
+    //printf("%I64u packets/s\n", packets_per_second);
 
     // Store current timestamp
     old_ts->tv_sec=packet_header->ts.tv_sec;
     old_ts->tv_usec=packet_header->ts.tv_usec;
+}
+
+void packet_handler(unsigned char* param, const struct pcap_pkthdr* packet_header, unsigned char* packet_data) {
+	
+	
+	unsigned int delay;
+	counter++;
+
+	if (counter == 1) {
+		t_first_packet = packet_header->ts;
+		
+	}
+	else if (counter = 20) {
+		t_last_packet = packet_header->ts;
+		bajts += packet_header->len;
+
+		delay = (t_last_packet.tv_sec - t_first_packet.tv_sec) * 1000000 + t_last_packet.tv_usec - t_first_packet.tv_usec;
+		printf("Bytes/ sec = %d", bajts / delay);
+	}
+
+	bajts += packet_header->len;
 }
