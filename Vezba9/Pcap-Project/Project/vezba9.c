@@ -136,6 +136,7 @@ int main()
 	/**************************************************************/
 	// !!! IMPORTANT: remember to close the output adapter, otherwise there will be no guarantee that all the packets will be sent!
 	pcap_close(device_handle_out);
+	printf("All the packets are sent!\n");
 
 	return 0;
 }

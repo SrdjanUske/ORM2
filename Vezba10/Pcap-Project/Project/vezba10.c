@@ -191,14 +191,13 @@ int main()
 	}
 
 	
-	
 	// Get current time in which statistical analysis starts
 	t = time(0);
 	localtime_s(&ltime, &t);
     strftime( timestr, sizeof timestr, "%H:%M:%S", &ltime);
 	
 	// Print start time
-    printf("Statistical analysis starts at: %s \n", timestr);
+    printf("\nStatistical analysis starts at: %s \n", timestr);
 
 	start_time.tv_sec=t;
 	start_time.tv_usec=0;
@@ -207,8 +206,9 @@ int main()
 	pcap_loop(device_handle, 15, statistics_handler, (unsigned char*)&start_time);
 	
 	// 3)
+	printf("\nSUMMARY: ");
 	printf("%I64u packets/sec, ", packets_sec / 15);
-	printf("%I64u bits/sec, ", bits_sec / 15);
+	printf("%I64u bits/sec, \n", bits_sec / 15);
 
 	// Set device (NIC) in capture mode
 	if (pcap_setmode(device_handle, MODE_CAPT) < 0)
@@ -265,15 +265,15 @@ void statistics_handler(unsigned char* param, const struct pcap_pkthdr* packet_h
     strftime( timestr, sizeof timestr, "%H:%M:%S", &ltime);
 
     // Print timestamp
-    printf("\n%s  \n", timestr);
+    printf("%s  \n", timestr);
 
 	// Print packets and bajts
 	printf("%I64u packets, ", *(long long*)(packet_data));
 	printf("%I64u bajts, ", *(long long*)(packet_data + 8));
 
     // Print results (bps and pps)
-    //printf("%I64u bits/s, ", bits_per_second);
-    //printf("%I64u packets/s\n", packets_per_second);
+    printf("%I64u bits/s, ", bits_per_second);
+    printf("%I64u packets/s\n", packets_per_second);
 
     // Store current timestamp
     old_ts->tv_sec=packet_header->ts.tv_sec;
@@ -283,7 +283,7 @@ void statistics_handler(unsigned char* param, const struct pcap_pkthdr* packet_h
 void packet_handler(unsigned char* param, const struct pcap_pkthdr* packet_header, unsigned char* packet_data) {
 	
 	
-	unsigned int delay;
+	unsigned long long delay;
 	counter++;
 
 	if (counter == 1) {
@@ -294,8 +294,9 @@ void packet_handler(unsigned char* param, const struct pcap_pkthdr* packet_heade
 		t_last_packet = packet_header->ts;
 		bajts += packet_header->len;
 
-		delay = (t_last_packet.tv_sec - t_first_packet.tv_sec) * 1000000 + t_last_packet.tv_usec - t_first_packet.tv_usec;
-		printf("Bytes/ sec = %d", bajts / delay);
+		delay = (t_last_packet.tv_sec - t_first_packet.tv_sec) + (t_last_packet.tv_usec - t_first_packet.tv_usec) / 1000000;
+		printf("Bytes/ sec = %.2lf", bajts / delay);
+		return;
 	}
 
 	bajts += packet_header->len;
