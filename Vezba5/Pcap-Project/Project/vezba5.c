@@ -32,7 +32,7 @@ int main()
 	char error_buffer[PCAP_ERRBUF_SIZE];	// Error buffer
 	unsigned int netmask;
 	
-	char filter_exp[] = "dst host 10.81.31.69 and tcp";
+	char filter_exp[] = "tcp";
 	struct bpf_program fcode;
 
     /* Retrieve the device list on the local machine */
@@ -152,6 +152,7 @@ void packet_handler(unsigned char* param, const struct pcap_pkthdr* packet_heade
 	time_t timestamp;			// Raw time (bits) when packet is received 
 	struct tm* local_time;		// Local time when packet is received
 	char time_string[16];		// Local time converted to string
+	int i;
 
 	// Convert the timestamp to readable format
 	timestamp = packet_header->ts.tv_sec;
@@ -161,7 +162,6 @@ void packet_handler(unsigned char* param, const struct pcap_pkthdr* packet_heade
 	printf("\n-------------------------------------------");
 	printf("\nPacket (%d): %s, %d byte\n", ++packet_counter, time_string, packet_header->len);
 	
-	int i;
 	for (i = 0; i < packet_header->len; i++) {
 		printf("%.2x ", packet_data[i]);
 			if ((i+1) % 16 == 0) {
