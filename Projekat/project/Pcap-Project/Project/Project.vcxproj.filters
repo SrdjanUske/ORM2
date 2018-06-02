@@ -21,9 +21,18 @@
     <ClInclude Include="protocol_headers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="preparing_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="preparing_file.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol_headers.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

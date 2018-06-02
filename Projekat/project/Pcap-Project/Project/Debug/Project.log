@@ -1,24 +1,51 @@
-﻿Build started 07-May-18 12:37:05 AM.
-     1>Project "D:\VI Semestar\ORM2\Vezba10\Pcap-Project\Project\Project.vcxproj" on node 2 (build target(s)).
+﻿Build started 31-May-18 9:18:39 AM.
+     1>Project "D:\VI_Semestar\ORM2\Projekat\project\Pcap-Project\Project\Project.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Debug\Project.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I../ /I../bpf/ /I../lbl/ /I../../Include/ /ZI /nologo /W3 /WX- /Od /Oy- /D _DEBUG /D WIN32 /D _CONSOLE /D _MBCS /D WPCAP /D HAVE_REMOTE /D _VC80_UPGRADE=0x0600 /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt vezba10.c
-         vezba10.c
-     1>d:\vi semestar\orm2\vezba10\pcap-project\project\vezba10.c(202): warning C4244: '=' : conversion from 'time_t' to 'long', possible loss of data
-     1>d:\vi semestar\orm2\vezba10\pcap-project\project\vezba10.c(223): warning C4090: 'function' : different 'const' qualifiers
-     1>d:\vi semestar\orm2\vezba10\pcap-project\project\vezba10.c(223): warning C4028: formal parameter 3 different from declaration
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I../ /I../bpf/ /I../lbl/ /I../../Include/ /ZI /nologo /W3 /WX- /Od /Oy- /D _DEBUG /D WIN32 /D _CONSOLE /D _MBCS /D WPCAP /D HAVE_REMOTE /D _VC80_UPGRADE=0x0600 /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc100.pdb" /Gd /TC /analyze- /errorReport:prompt main.c
+         main.c
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(227): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(232): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(372): warning C4113: 'void (__cdecl *)(unsigned char *,const pcap_pkthdr *,const unsigned char *,unsigned int)' differs in parameter lists from 'pcap_handler'
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(392): warning C4113: 'void (__cdecl *)(unsigned char *,const pcap_pkthdr *,const unsigned char *,unsigned int)' differs in parameter lists from 'pcap_handler'
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(403): warning C4029: declared formal parameter list different from definition
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(431): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(442): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(453): warning C4033: 'sendEthernet' must return a value
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(464): warning C4033: 'sendEthernet' must return a value
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(474): warning C4033: 'sendEthernet' must return a value
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(478): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(489): warning C4033: 'sendEthernet' must return a value
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(500): warning C4033: 'sendEthernet' must return a value
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(510): warning C4033: 'sendEthernet' must return a value
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(558): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(571): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(582): warning C4033: 'sendWifi' must return a value
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(593): warning C4033: 'sendWifi' must return a value
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(602): warning C4033: 'sendWifi' must return a value
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(606): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(617): warning C4033: 'sendWifi' must return a value
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(628): warning C4033: 'sendWifi' must return a value
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(637): warning C4033: 'sendWifi' must return a value
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(570): warning C4101: 'ack' : unreferenced local variable
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(692): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(704): warning C4018: '<' : signed/unsigned mismatch
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(513): warning C4716: 'sendEthernet' : must return a value
+     1>d:\vi_semestar\orm2\projekat\project\pcap-project\project\main.c(640): warning C4716: 'sendWifi' : must return a value
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\Project.exe" /INCREMENTAL:NO /NOLOGO odbc32.lib odbccp32.lib wsock32.lib ws2_32.lib Iphlpapi.lib ../../Lib/wpcap.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:".\Debug\Project.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\VI Semestar\ORM2\Vezba10\Pcap-Project\Project\Debug\Project.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\Project.lib" /MACHINE:X86 .\Debug\vezba10.obj
-     1>vezba10.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
-         Project.vcxproj -> D:\VI Semestar\ORM2\Vezba10\Pcap-Project\Project\.\Debug\Project.exe
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\Project.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Users\susor\OneDrive\Documents\pthreads\Pre-built.2\lib" "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\lib\pthreadVC2.lib" odbc32.lib odbccp32.lib wsock32.lib ws2_32.lib Iphlpapi.lib ../../Lib/wpcap.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:".\Debug\Project.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\VI_Semestar\ORM2\Projekat\project\Pcap-Project\Project\Debug\Project.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\Project.lib" /MACHINE:X86 .\Debug\main.obj
+         .\Debug\preparing_file.obj
+         .\Debug\protocol_headers.obj
+     1>main.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+         Project.vcxproj -> D:\VI_Semestar\ORM2\Projekat\project\Pcap-Project\Project\.\Debug\Project.exe
        Manifest:
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:".\Debug\Project.exe;#1" /manifest .\Debug\Project.exe.intermediate.manifest
        FinalizeBuildStatus:
          Deleting file ".\Debug\Project.unsuccessfulbuild".
          Touching ".\Debug\Project.lastbuildstate".
-     1>Done Building Project "D:\VI Semestar\ORM2\Vezba10\Pcap-Project\Project\Project.vcxproj" (build target(s)).
+     1>Done Building Project "D:\VI_Semestar\ORM2\Projekat\project\Pcap-Project\Project\Project.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.80
+Time Elapsed 00:00:01.21

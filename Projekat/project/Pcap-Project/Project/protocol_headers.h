@@ -1,13 +1,26 @@
 /* PROTOCOL HEADERS */
+#include <stdlib.h>
+#include <stdio.h>
 
-// Ethernet header
+#define ETHERNET_HEADER "Ethernet"
+#define WIFI_HEADER "WiFi"
+#define DESTINATION_PORT 8080
+#define SOURCE_PORT 8080
+#define ETHERNET_HEADER_SIZE 14
+#define IP_SIZE 20
+#define UDP_SIZE 8
+#define ORDER_NUM_CHECK 4
+#define TOTAL_HEADER_SIZE 46
+ 
+
+// Ethernet header (14 bytes)
 typedef struct ethernet_header{
 	unsigned char dest_address[6];		// Destination address
 	unsigned char src_address[6];		// Source address
 	unsigned short type;				// Type of the next layer
 }ethernet_header;
 
-// IPv4 header
+// IPv4 header (20 bytes)
 typedef struct ip_header{
 	unsigned char header_length :4;	// Internet header length (4 bits)
 	unsigned char version :4;		// Version (4 bits)
@@ -25,7 +38,7 @@ typedef struct ip_header{
 		// + variable part of the header
 }ip_header;
 
-//UDP header
+//UDP header (8 bytes)
 typedef struct udp_header{
 	unsigned short src_port;		// Source port
 	unsigned short dest_port;		// Destination port
@@ -47,3 +60,7 @@ typedef struct tcp_header {
 	unsigned short urgent_pointer;		// Urgent pointer
 	// + variable part of the header
 } tcp_header;
+
+/*Functions*/
+unsigned short calculate_checksum(unsigned char* header);
+unsigned char* setup_header(unsigned char* data_buffer, unsigned char* passed_header, int size_of_current_package, int orderNumber, char* header_name);

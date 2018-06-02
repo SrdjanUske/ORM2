@@ -1,0 +1,63 @@
+====================
+/* input FILE slika (lena_noise.bmp) ---> 769 kB */
+--------------------
+Eternet
+--------------------
+
+Paket = 1514B
+Brzina = 132.17 kB/s
+
+Paket = 1040B
+Brzina = 90.68 kB/s
+
+Paket = 540B
+Brzina = 45.07 kB/s
+
+--------------------
+WI-FI
+--------------------
+
+Paket = 1514B
+Brzina = 134.50 kB/s
+
+Paket = 1040B
+Brzina = 90.86 kB/s
+
+Paket = 540B
+Brzina = 45.14 kB/s
+
+--------------------
+Eternet/WI-FI
+--------------------
+
+Paket = 1514B
+Brzina = 263.85 kB/s
+
+Paket = 1040B
+Brzina = 179.47 kB/s
+
+Paket = 540B
+Brzina = 89.35 kB/s
+
+====================
+/* input FILE video (navijanje.mp4) ---> 11678 kB */
+--------------------
+Eternet
+--------------------
+
+Paket = 1514B
+Brzina = 136.03 kB/s
+
+--------------------
+WI-FI
+--------------------
+
+Paket = 1514B
+Brzina = 133.90 kB/s
+
+--------------------
+Eternet/WI-FI
+--------------------
+
+Paket = 1514B
+Brzina = 264.23 kB/s

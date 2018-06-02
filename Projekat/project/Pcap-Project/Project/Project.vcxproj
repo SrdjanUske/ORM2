@@ -82,8 +82,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OutputFile>.\Debug\Project.exe</OutputFile>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;wsock32.lib;ws2_32.lib;Iphlpapi.lib;../../Lib/wpcap.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>"C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\lib\pthreadVC2.lib";odbc32.lib;odbccp32.lib;wsock32.lib;ws2_32.lib;Iphlpapi.lib;../../Lib/wpcap.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\susor\OneDrive\Documents\pthreads\Pre-built.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -121,9 +125,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.c" />
+    <ClCompile Include="preparing_file.c" />
+    <ClCompile Include="protocol_headers.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\pcap.h" />
+    <ClInclude Include="preparing_file.h" />
     <ClInclude Include="protocol_headers.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
